@@ -80,51 +80,49 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Signup</h1>
-        
+<?php
+if (isset($_POST['signup'])) {
+    // Handle form submission
+    require_once 'library.php';
 
-        <?php 
-        if (isset($_POST['signup'])) {
-            // Handle form submission
-            require_once 'library.php';
+    $user = new Books();
 
-            $user = new Books();
+    // Set book properties based on user input
+    $user->setusername($_POST['username']);
+    $user->setemail($_POST['email']);
+    $user->setpassword($_POST['password']);
+    
 
-            // Set book properties based on user input
-            $user->setusername($_POST['username']);
-            $user->setemail($_POST['email']);
-            $user->setpassword($_POST['password']);
-            
+    if (!$user->existsInDatabaseUser()) {
+        // If it doesn't exist, insert the new user into the database
+        $user->signup();
+        echo "<div class='result success'>Signup successful</div>";
 
-            if (!$user->existsInDatabaseUser()) {
-                // If it doesn't exist, insert the new user into the database
-                $user->signup();
-                echo "<div class='result success'>Signup successful</div>";
-                // Use PHP to set the refresh header
-                require_once 'signin.php';
-                // require_once 'refresh.php';
-            } else {
-                echo "<div class='result error'>Signup failed. Please try again.</div>";
-            }
-        }
+        // Redirect to the signin page after a successful signup
+        require_once 'signin.php';
+        exit(); // Ensure that code execution stops after the redirect
+    } else {
+        echo "<div class='result error'>Signup failed. Please try again.</div>";
+    }
+}
+?>
 
+<div class="container">
+    <h1>Signup</h1>
+    <form method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
 
-        ?>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
 
-        <form method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br>
+        <input type="submit" name="signup" value="Signup">
+    </form>
+</div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-
-            <input type="submit" name="signup" value="Signup">
-        </form>
-    </div>
 </body>
 
 </html>

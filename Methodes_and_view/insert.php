@@ -95,7 +95,7 @@
                 $newBook->insert();
                 echo "<p>New book has been inserted successfully with ID: " . $newBook->getIsbn() . "</p>";
                 // Use PHP to set the refresh header
-                header("refresh: 2; url=yourpage.php");
+                
                 // require_once 'refresh.php';
             } else {
                 echo "<p class='error'>A book with the same ISBN already exists. No insertion performed.</p>";

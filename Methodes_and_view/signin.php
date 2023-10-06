@@ -81,7 +81,7 @@
 
 <body>
     <div class="container">
-        <h1>Signup</h1>
+        <h1>Signin</h1>
         
 
         <?php 
